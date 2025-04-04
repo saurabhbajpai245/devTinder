@@ -7,3 +7,18 @@
 # ~ -> Allows updates only to the patch version, meaning only bug fixes, not any new features.
 
 # app.use(cb()) -> here cb function known as request handler function
+
+# create a local repository using command  
+    -- git init
+    -- git add . (adding all the files to stage, you can also specify a single file as well like git add app.js)
+    -- git commit -m "commiting the stage changes to local repository"
+
+# Now you create remote reposiory and connect local repository with remote one using following commands
+
+    -- git remote add origin https://github.com/saurabhbajpai245/devTinder.git
+    -- git branch -M main   
+    -- git push -u origin main
+
+# For learning
+    -- difference b/w app.use and app.all
+    
