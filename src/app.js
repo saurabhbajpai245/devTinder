@@ -21,8 +21,23 @@ app.get('/user/profile', (req, res, next) => {
     res.send('Profile details');
 })
 
+app.get('/getInfo', (req, res, next) => {
+    try{
+        throw new Error('Some random error')
+    }catch(err){
+        res.status(500).send('some error occured')
+    }
+    res.send('something');
+})
+
 app.get('/ab?c', (req, res) => {
     res.send("it will work for the path abc and ac as well, here b is the optional parameter");
+})
+
+app.use('/', (err, req, res, next) => {
+    if(err){
+        res.status(500).send('Some error')
+    }
 })
 
 app.listen(3000, () => {
