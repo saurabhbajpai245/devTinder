@@ -1,45 +1,36 @@
 const express = require('express');
 const app = express();
 const { adminAuth, userAuth } = require('./utils/middlewares/auth');
+const connectDB = require('./config/databaseconnection')
+const User = require('./models/user');
 
-// Here this authorization is kind of middleware to authorized user...
-app.use('/admin', adminAuth);
-app.use('/user', userAuth);
+require('./config/databaseconnection');
 
-app.get('/admin/getAllData', (req, res, next) => {
-    // we need to authenticate the api as well
-    console.log('get all data');
-    res.send('Data fetched ')
-})
-
-app.get('/admin/delete', (req, res, next) => {
-    console.log('delete data');
-    res.send('data delete')
-})
-
-app.get('/user/profile', (req, res, next) => {
-    res.send('Profile details');
-})
-
-app.get('/getInfo', (req, res, next) => {
+app.post('/signup', async (req, res, next) => {
+    // creating a new instance of the user model
+    const user = new User({
+        firstName : 'Saurabh',
+        lastName : 'Bajpai',
+        emailid : 'saurabh@gmail.com',
+        password: '8298j9320',
+        age : 26,
+        gender: 'Male'
+    });
     try{
-        throw new Error('Some random error')
+        await user.save();
+        res.send("User added successfully!!")
     }catch(err){
-        res.status(500).send('some error occured')
-    }
-    res.send('something');
-})
-
-app.get('/ab?c', (req, res) => {
-    res.send("it will work for the path abc and ac as well, here b is the optional parameter");
-})
-
-app.use('/', (err, req, res, next) => {
-    if(err){
-        res.status(500).send('Some error')
+        res.status(400).send(err, 'getting error');
     }
 })
 
-app.listen(3000, () => {
-    console.log('listening on 3000') 
-});   
+connectDB().then(() => {
+    console.log('database connected');
+    app.listen(3000, () => {
+        console.log('listening on 3000') 
+    });  
+})
+.catch((err) => {
+    console.log(err, 'Database is not connected');
+}) 
+ 
